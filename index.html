@@ -3,46 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Formulaire Externe Pré-rempli</title>
+    <!-- Remarque: Pour que GitHub Pages le serve par défaut, renommez ce fichier en 'index.html' -->
+    <title>Mon Formulaire Pré-rempli (index.html)</title>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8;
-            color: #333;
+        /* Styles généraux pour le corps de la page */
+        html, body {
+            width: 100%; /* S'assure que html et body prennent toute la largeur disponible */
+            height: 100%; /* S'assure que html et body prennent toute la hauteur */
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            overflow-x: hidden; /* Empêche tout défilement horizontal inattendu */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif; /* Utilise la police Inter */
+            background-color: #f0f4f8; /* Couleur de fond douce */
+            color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            min-height: 100vh; /* Hauteur minimale pour centrage vertical si besoin */
             box-sizing: border-box;
         }
-        .form-wrapper {
+
+        /* Nouveau conteneur principal pour gérer le formulaire et les messages séparément */
+        #mainWrapper {
+            width: 100%;
+            max-width: 500px; /* Largeur maximale par défaut pour desktop/grands écrans */
+            position: relative; /* Permet un positionnement des enfants si besoin */
+        }
+
+        /* Styles du conteneur du formulaire */
+        #formContainer {
             background-color: #ffffff;
             padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 12px; /* Coins arrondis */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Ombre douce */
             width: 100%;
-            max-width: 500px;
-            box-sizing: border-box;
+            transition: opacity 0.5s ease-in-out;
         }
+
+        /* Styles du titre du formulaire */
         h2 {
-            color: #1a202c;
+            color: #1a202c; /* Couleur de titre plus foncée */
             text-align: center;
             margin-bottom: 25px;
             font-size: 1.8em;
             font-weight: 600;
         }
+
+        /* Styles des groupes de champs (label + input) */
         .form-group {
             margin-bottom: 20px;
         }
+
+        /* Styles des labels */
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: #4a5568;
+            color: #4a5568; /* Couleur de label */
             font-size: 0.95em;
         }
+
+        /* Styles des champs de saisie (text, email, date, textarea) */
         input[type="text"],
         input[type="email"],
         input[type="date"],
@@ -53,41 +77,61 @@
             border-radius: 8px;
             box-sizing: border-box;
             font-size: 1em;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
+
+        /* Effet de focus sur les champs de saisie */
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="date"]:focus,
+        textarea:focus {
+            border-color: #4299e1; /* Couleur au focus */
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3); /* Ombre de focus */
+            outline: none; /* Supprime l'outline par défaut du navigateur */
+        }
+
         textarea {
-            resize: vertical;
-            min-height: 100px;
+            resize: vertical; /* Permet le redimensionnement vertical */
+            min-height: 100px; /* Hauteur minimale du textarea */
         }
+
+        /* Conteneur des boutons */
         .buttons-container {
             margin-top: 30px;
-            text-align: center;
+            text-align: center; /* Centre les boutons */
         }
+
+        /* Styles des boutons */
         button {
             padding: 12px 25px;
             border: none;
-            border-radius: 8px;
+            border-radius: 8px; /* Coins arrondis */
             cursor: pointer;
             font-size: 1.05em;
             font-weight: 600;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            margin: 0 10px;
+            margin: 0 10px; /* Espacement entre les boutons */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
+        /* Style du bouton Soumettre */
         button[type="submit"] {
-            background-color: #4299e1;
+            background-color: #4299e1; /* Bleu primaire */
             color: white;
         }
         button[type="submit"]:hover {
-            background-color: #3182ce;
-            transform: translateY(-1px);
+            background-color: #3182ce; /* Bleu plus foncé au survol */
+            transform: translateY(-1px); /* Léger effet de soulèvement */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
+
+        /* Style du bouton Annuler */
         button.cancel {
-            background-color: #e53e3e;
+            background-color: #e53e3e; /* Rouge pour Annuler */
             color: white;
         }
         button.cancel:hover {
-            background-color: #c53030;
+            background-color: #c53030; /* Rouge plus foncé au survol */
             transform: translateY(-1px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
@@ -101,6 +145,7 @@
         }
         .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
         .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
         .loading-spinner {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #3498db;
@@ -118,7 +163,7 @@
 
         /* Media Queries pour la réactivité */
         @media (max-width: 600px) {
-            body { padding: 10px; }
+            body { padding: 0; }
             .form-wrapper { padding: 20px; }
             input[type="text"], input[type="email"], input[type="date"], textarea {
                 padding: 10px;
@@ -163,14 +208,14 @@
     <script>
         // IMPORTANT : Remplacez cette URL par l'URL `/exec` de votre application web Apps Script déployée.
         // L'URL doit être complète et commencer par 'https://'.
-        // Exemple valide: const APP_SCRIPT_API_URL = "https://script.google.com/macros/s/AKfycbwHNldAxq5EPURN3SF_J4SCT14BWXkrUq7iJOSuk5fE46cvjz8KITlR48x5FbS7pupB/exec";
-        const APP_SCRIPT_API_URL = "https://script.google.com/macros/s/AKfycbw3Y-TwIgagaIDBQjhyJ6p_P3UZLO71q5SIrJtNUDbswK0x6G9WFNM2Y_KP1Ih95Okk/exec";
+        // Exemple valide: const APP_SCRIPT_API_URL = "https://script.google.com/macros/s/AKfycbz.../exec";
+        const APP_SCRIPT_API_URL = "URL_DE_VOTRE_WEBAPP_APPS_SCRIPT_ICI";
 
         // Fonction utilitaire pour afficher les messages
         function displayMessage(message, type) {
             const msgDiv = document.getElementById('messageDisplay');
             msgDiv.textContent = message;
-            msgDiv.className = type; // Applique la classe pour le style (success, error, info)
+            msgDiv.className = type; // Applique la classe pour le style (success, error, info, warning)
             msgDiv.style.display = 'block';
         }
 
@@ -198,28 +243,42 @@
             hideMessage();
         }
 
-        // --- Chargement des données pré-remplies au chargement de la page ---
+        // --- Vérification du protocole et chargement des données pré-remplies ---
         document.addEventListener('DOMContentLoaded', async () => {
+            // Vérifie si le fichier HTML est ouvert via le protocole file://
+            if (window.location.protocol === 'file:') {
+                displayMessage(
+                    "Attention: Ce fichier HTML est ouvert localement (file://). " +
+                    "Les requêtes vers des serveurs externes (comme Google Apps Script) peuvent être bloquées par les navigateurs (problèmes CORS). " +
+                    "Pour un fonctionnement optimal, hébergez ce fichier sur un serveur web (même un simple serveur local comme http-server ou Python).",
+                    "warning"
+                );
+                // Si c'est un test local, ne pas tenter la requête fetch pour éviter l'erreur.
+                // Ou alors, l'utilisateur devra désactiver les protections CORS de son navigateur pour le test.
+                hideSpinner(); // Cache le spinner si on ne tente pas la requête
+                return; // Arrête l'exécution si on est en file://
+            }
+
             showSpinner(); // Affiche le spinner pendant le chargement
 
             try {
                 // Effectue une requête GET à l'API Apps Script pour obtenir les données pré-remplies
                 const response = await fetch(`${APP_SCRIPT_API_URL}?action=getPreFillData`);
                 const data = await response.json();
-                displayMessage("Données pré-remplies en cours.", "info");
-                if (response.ok ) {
+
+                if (response.ok && !data.error) {
                     // Remplir les champs du formulaire avec les données reçues
                     document.getElementById('nomComplet').value = data.nomComplet || '';
                     document.getElementById('emailAdresse').value = data.emailAdresse || '';
                     document.getElementById('dateNaissance').value = data.dateNaissance || '';
                     document.getElementById('commentaires').value = data.commentaires || '';
-                    displayMessage("Données pré-remplies chargées.", "info");
+                    displayMessage("Données pré-remplies chargées.", "success");
                 } else {
                     displayMessage(`Erreur de chargement des données: ${data.error || 'Inconnu'}`, "error");
                     console.error("Erreur API de pré-remplissage:", data.error);
                 }
             } catch (error) {
-                //displayMessage(`Erreur de connexion lors du chargement: ${error.message}`, "error");
+                displayMessage(`Erreur de connexion lors du chargement: ${error.message}`, "error");
                 console.error("Erreur Fetch API pour pré-remplissage:", error);
             } finally {
                 hideSpinner(); // Masque le spinner après le chargement (réussi ou échoué)
@@ -229,6 +288,16 @@
         // --- Gestion de la soumission du formulaire ---
         document.getElementById('externalForm').addEventListener('submit', async function(e) {
             e.preventDefault(); // Empêche l'envoi traditionnel
+
+            // Vérifie si le fichier HTML est ouvert via le protocole file:// avant de soumettre
+            if (window.location.protocol === 'file:') {
+                displayMessage(
+                    "Impossible d'envoyer les données: Le fichier HTML est ouvert localement (file://). " +
+                    "Veuillez l'héberger sur un serveur web pour soumettre le formulaire.",
+                    "error"
+                );
+                return;
+            }
 
             showSpinner(); // Affiche le spinner pendant l'envoi
 
